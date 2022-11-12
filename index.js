@@ -61,20 +61,30 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 const generateId = () => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(n => n.id))
-    : 0
-  return maxId + 1
+  
+  return Math.floor(Math.random() * 1000000);
 }
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-
-  if (!body.name || !body.number) {
+  if (!body.name) {
     return response.status(400).json({ 
       error: 'name missing' 
     })
   }
+
+  else if (!body.number) {
+    return response.status(400).json({ 
+      error: 'number missing' 
+    })
+  }
+
+  else if (persons.find(person => person.name === body.name)) {
+    return response.status(400).json({ 
+      error: 'person already exist' 
+    })
+  }
+
 
   const person = {
     id: generateId(),
