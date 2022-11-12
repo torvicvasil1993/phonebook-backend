@@ -81,7 +81,7 @@ app.post('/api/persons', (request, response) => {
 
   else if (persons.find(person => person.name === body.name)) {
     return response.status(400).json({ 
-      error: 'person already exist' 
+      error: 'name must be unique'
     })
   }
 
